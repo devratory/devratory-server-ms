@@ -2,11 +2,11 @@ import { BaseService } from '@ekhmoi/core-ms';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { Item } from './item.model';
+import { Project } from './project.model';
 
 @Injectable()
-export class ItemService extends BaseService<Item> {
-  constructor(@InjectModel(Item.modelName) protected readonly model: ReturnModelType<typeof Item>) {
+export class ProjectService extends BaseService<Project> {
+  constructor(@InjectModel(Project.modelName) protected readonly model: ReturnModelType<typeof Project>) {
     super(model);
   }
 }
