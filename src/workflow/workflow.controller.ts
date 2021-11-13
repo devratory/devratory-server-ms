@@ -20,12 +20,9 @@ export class WorkflowController {
   }
 
   @MessagePattern('@workflow/get_all')
-  async get(): Promise<MSResponse<Workflow[]>> {
+  async get(filters): Promise<MSResponse<Workflow[]>> {
     try {
-      const filter = {
-        hidden: false,
-      };
-      const workflows = await this.workflowService.findAllAsync(filter);
+      const workflows = await this.workflowService.findAllAsync(filters || {});
       return new MSResponse(HttpStatus.OK, 'success', workflows);
     } catch (e) {
       console.error(e);
@@ -35,6 +32,7 @@ export class WorkflowController {
 
   @MessagePattern('@workflow/update')
   async workflowUpdateById({ workflow, id }: { workflow: Partial<Workflow>; id: string; userId: string }): Promise<MSResponse<Workflow>> {
+    console.log('Updateing workflow', id, workflow);
     if (!workflow || !id) return new MSResponse(HttpStatus.BAD_REQUEST, '@workflow/update_by_id_failed', null, ['Missing parameters']);
 
     const exists = await this.workflowService.findById(id);
@@ -43,6 +41,7 @@ export class WorkflowController {
 
     try {
       const updatedWorkflow = Object.assign(exists, workflow);
+      await this.workflowService.update(updatedWorkflow).exec();
       return new MSResponse(HttpStatus.OK, '@workflow/update_by_id_success', updatedWorkflow);
     } catch (e) {
       return new MSResponse(HttpStatus.INTERNAL_SERVER_ERROR, 'workflow.workflowUpdateById.success', null, e.errors);
