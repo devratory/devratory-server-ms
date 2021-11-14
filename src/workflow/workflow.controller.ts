@@ -30,6 +30,17 @@ export class WorkflowController {
     }
   }
 
+  @MessagePattern('@workflow/get_by_id')
+  async getById({ id }: { id: string }): Promise<MSResponse<Workflow>> {
+    try {
+      const workflows = await this.workflowService.findById(id);
+      return new MSResponse(HttpStatus.OK, 'success', workflows);
+    } catch (e) {
+      console.error(e);
+      return new MSResponse(HttpStatus.INTERNAL_SERVER_ERROR, '', null, e.errors);
+    }
+  }
+
   @MessagePattern('@workflow/update')
   async workflowUpdateById({ workflow, id }: { workflow: Partial<Workflow>; id: string; userId: string }): Promise<MSResponse<Workflow>> {
     console.log('Updateing workflow', id, workflow);
