@@ -45,21 +45,18 @@ export class MicroserviceDefinition {
 export class Microservice extends BaseModel {
   @prop()
   connection: Connection;
-  @prop()
+
+  @prop() dockerImageUrl: string;
+
+  @prop({required: true})
   name: string;
 
   @prop()
-  definitions: {
-    [definitionName: string]: MicroserviceDefinition;
-  };
+  contract: object;
 
-  @prop()
-  methods: MicroserviceMethod[];
-
-  @prop()
+  @prop({required: true})
   projectId: string;
 
-  @prop()
+  @prop({required: true})
   createdBy: string;
-
 }

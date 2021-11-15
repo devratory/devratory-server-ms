@@ -5,6 +5,7 @@ import { CoreMsModule } from '@ekhmoi/core-ms';
 import { ContractModule } from './contract/contract.module';
 import { WorkflowModule } from './workflow/workflow.module';
 import { ProjectModule } from './project/project.module';
+import { MicroserviceModule } from './microservice/microservice.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProjectModule } from './project/project.module';
     ContractModule,
     WorkflowModule,
     ProjectModule,
+    MicroserviceModule
   ],
 })
 export class AppModule {}
